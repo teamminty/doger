@@ -2,6 +2,8 @@
 name = "doger"
 version = "0.0.0"
 edition = "2021"
+description = "The web framework of the future"
+license = "ISC"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
