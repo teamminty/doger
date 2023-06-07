@@ -8,6 +8,7 @@ pub trait App {
 
 pub type Result<T> = result_helper::ResultWrapper<T, Error>;
 
+// This is needed, otherwise a recursive type is created.
 mod result_helper {
     pub type ResultWrapper<T, E> = Result<T, E>;
 }
