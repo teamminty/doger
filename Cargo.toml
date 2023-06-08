@@ -9,6 +9,7 @@ license = "ISC"
 
 [dependencies]
 anyhow = "1.0.71"
+routefinder = "0.5.3"
 
 [workspace]
 members = [
