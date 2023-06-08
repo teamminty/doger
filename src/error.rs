@@ -3,6 +3,14 @@ pub use anyhow as __anyhow;
 use core::fmt;
 use std::fmt::{Display, Debug};
 
+
+pub type Result<T> = result_helper::ResultWrapper<T, Error>;
+
+// This is needed, otherwise a recursive type is created.
+mod result_helper {
+    pub type ResultWrapper<T, E> = Result<T, E>;
+}
+
 /// A specialized `Result` type for doger.
 pub struct Error {
     error: __anyhow::Error
@@ -11,7 +19,7 @@ pub struct Error {
 /// Just like `anyhow::anyhow!(...)`, but automatically calls `doger::Error::from()` to spare some boilerplate.
 #[macro_export]
 macro_rules! anyhow {
-    ($tt: tt) => {{<$crate::Error as From<$crate::error::__anyhow::Error>>::from($crate::error::__anyhow::anyhow!($tt))}};
+    ($tt: tt) => {{<$crate::error::Error as From<$crate::error::__anyhow::Error>>::from($crate::error::__anyhow::anyhow!($tt))}};
 }
 
 impl Error {

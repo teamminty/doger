@@ -1,4 +1,27 @@
+#![cfg(test)]
+
+use doger::prelude::*;
+
 #[test]
 fn anyhow_macro() {
     assert_eq!(doger::anyhow!("oof").to_string(), "oof");
+}
+
+#[test]
+fn a() {
+    struct App {
+
+    }
+    impl<'a> doger::app::App for App {
+        fn load(builder: &'a mut doger::app::AppBuilder<Self>) -> Result<Self> {
+            builder.at("/bananen/:id").get(&Self::bananen).add_to_builder(builder)?;
+            Ok(Self {  })
+        }
+    }
+    impl App {
+        pub fn bananen(app: Self) -> Result<()> {
+            Ok(())
+        }
+    }
+    build_app::<App>().unwrap();
 }
