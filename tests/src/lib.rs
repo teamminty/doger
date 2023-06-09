@@ -13,7 +13,7 @@ fn a() {
         
     }
     impl doger::app::App for App {
-        fn load(builder: &mut doger::app::AppBuilder<Self>) -> Result<Self> {
+        fn load(builder: &mut AppBuilder<Self>) -> Result<Self> {
             builder.at("/bananen/:id").get(&Self::bananen).add_to_builder(builder)?;
             Ok(Self {  })
         }
