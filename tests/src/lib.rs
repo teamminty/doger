@@ -24,5 +24,5 @@ fn a() {
             Ok(())
         }
     }
-    build_app::<App>().unwrap();
+    run_app::<App>();
 }
