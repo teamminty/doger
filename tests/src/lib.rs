@@ -10,7 +10,7 @@ fn anyhow_macro() {
 #[test]
 fn a() {
     struct App {
-
+        
     }
     impl doger::app::App for App {
         fn load(builder: &mut doger::app::AppBuilder<Self>) -> Result<Self> {
@@ -19,7 +19,8 @@ fn a() {
         }
     }
     impl App {
-        pub fn bananen(app: Self) -> Result<()> {
+        pub fn bananen(app: &mut Self) -> Result<()> {
+            
             Ok(())
         }
     }

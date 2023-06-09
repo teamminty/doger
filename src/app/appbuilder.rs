@@ -16,11 +16,11 @@ impl<T: App> AppBuilder<T> {
 
 pub struct RoutePath<T: App> {
     p: Route,
-    get: Option<Box<dyn Fn(T) -> Result<()>>>
+    get: Option<Box<dyn Fn(&mut T) -> Result<()>>>
 }
 
 impl<T: App> RoutePath<T> {
-    pub fn get<F: Fn(T) -> Result<()>>(mut self, cb: &'static F) -> Self {
+    pub fn get<F: Fn(&mut T) -> Result<()>>(mut self, cb: &'static F) -> Self {
         self.get = Some(Box::new(cb));
         return self;
     }
