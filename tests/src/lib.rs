@@ -19,7 +19,7 @@ fn a() {
         }
     }
     impl App {
-        pub fn bananen(app: &mut Self) -> Result<()> {
+        pub fn bananen(app: &mut Self, req: &mut Request) -> Result<()> {
             
             Ok(())
         }
