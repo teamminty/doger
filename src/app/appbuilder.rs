@@ -1,12 +1,12 @@
 use crate::{app::App, prelude::*};
 
 /// Not a traditional builder, but is passed into `App::load` as `load(AppBuilder)`
-pub struct AppBuilder<'a, T: App> {
-    pub(crate) routes: routefinder::Router<&'a RoutePath<'a, T>>
+pub struct AppBuilder<T: App> {
+    pub(crate) routes: routefinder::Router<RoutePath<T>>
 }
 
-impl<'a ,T: App> AppBuilder<'a, T> {
-    pub fn at<R: Into<Route>>(&'a mut self, v: R) -> RoutePath<'a, T> {
+impl<T: App> AppBuilder<T> {
+    pub fn at<R: Into<Route>>(&mut self, v: R) -> RoutePath<T> {
         return RoutePath {
             p: v.into(),
             ..Default::default()
@@ -14,17 +14,17 @@ impl<'a ,T: App> AppBuilder<'a, T> {
     }
 }
 
-pub struct RoutePath<'a, T: App> {
+pub struct RoutePath<T: App> {
     p: Route,
-    get: Option<&'a dyn Fn(T) -> Result<()>>
+    get: Option<Box<dyn Fn(T) -> Result<()>>>
 }
 
-impl<'a, T: App> RoutePath<'a, T> {
-    pub fn get<F: Fn(T) -> Result<()> + 'a>(&mut self, cb: &'a F) -> &Self {
-        self.get = Some(cb);
+impl<T: App> RoutePath<T> {
+    pub fn get<F: Fn(T) -> Result<()>>(mut self, cb: &'static F) -> Self {
+        self.get = Some(Box::new(cb));
         return self;
     }
-    pub fn add_to_builder(&'a self, app: &mut AppBuilder<'a, T>) -> Result<()> {
+    pub fn add_to_builder(self, app: &mut AppBuilder<T>) -> Result<()> {
         if self.get.is_some() {
             app.routes.add(self.p.path, self).map_err(|s| anyhow!(s))?;
         };
@@ -32,7 +32,7 @@ impl<'a, T: App> RoutePath<'a, T> {
     }
 }
 
-impl<'a, T: App> Default for RoutePath<'a, T> {
+impl<T: App> Default for RoutePath<T> {
     fn default() -> Self {
         return Self { get: None, p: "*".into() }
     }

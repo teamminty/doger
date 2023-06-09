@@ -12,8 +12,8 @@ fn a() {
     struct App {
 
     }
-    impl<'a> doger::app::App for App {
-        fn load(builder: &'a mut doger::app::AppBuilder<Self>) -> Result<Self> {
+    impl doger::app::App for App {
+        fn load(builder: &mut doger::app::AppBuilder<Self>) -> Result<Self> {
             builder.at("/bananen/:id").get(&Self::bananen).add_to_builder(builder)?;
             Ok(Self {  })
         }

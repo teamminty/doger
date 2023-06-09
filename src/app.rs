@@ -8,9 +8,10 @@ pub trait App where Self: Sized {
     fn load(builder: &mut AppBuilder<Self>) -> Result<Self>;
 }
 
-pub fn build<T: App>() -> Result<()> {
-    let a = <T as App>::load(&mut AppBuilder::<T> {
+pub fn build<T: App + 'static>() -> Result<()> {
+    let mut builder: AppBuilder<T> = AppBuilder::<T> {
         routes: routefinder::Router::new()
-    })?;
+    };
+    let a = <T as App>::load(&mut builder)?;
     Ok(())
 }
